@@ -1,0 +1,35 @@
+[
+  {
+    "id": "REQ-8551",
+    "sender": "TestAPI",
+    "receiver": "ReceiverAPI",
+    "type": "Express",
+    "notes": "API Test",
+    "status": "In Transit",
+    "date": "2025-12-06"
+  },
+  {
+    "id": "FT-1001",
+    "sender": "Rahim Store",
+    "receiver": "Karim Electronics",
+    "type": "Regular",
+    "status": "In Transit",
+    "date": "2023-10-25"
+  },
+  {
+    "id": "FT-1002",
+    "sender": "Dhaka Fashion",
+    "receiver": "Ms. Sadia",
+    "type": "Express",
+    "status": "Delivered",
+    "date": "2023-10-24"
+  },
+  {
+    "id": "FT-1003",
+    "sender": "Tech World",
+    "receiver": "Mr. Jamal",
+    "type": "Fragile",
+    "status": "Pending Approval",
+    "date": "2023-10-26"
+  }
+]
