@@ -13,7 +13,7 @@
     "sender": "Rahim Store",
     "receiver": "Karim Electronics",
     "type": "Regular",
-    "status": "In Transit",
+    "status": "Delivered",
     "date": "2023-10-25"
   },
   {
@@ -29,7 +29,7 @@
     "sender": "Tech World",
     "receiver": "Mr. Jamal",
     "type": "Fragile",
-    "status": "Pending Approval",
+    "status": "In Transit",
     "date": "2023-10-26"
   }
 ]

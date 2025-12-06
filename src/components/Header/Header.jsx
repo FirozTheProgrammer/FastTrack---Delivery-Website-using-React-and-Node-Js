@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Package, Menu, X } from 'lucide-react';
+import { Package, Menu, X, LogOut, User } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import Button from '../Button/Button';
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { user, logout } = useAuth();
     const location = useLocation();
 
     useEffect(() => {
@@ -30,7 +32,18 @@ const Header = () => {
                 <nav className="hidden md:flex items-center gap-6">
                     <Link to="/" className="font-medium text-slate-700 hover:text-primary-600 transition-colors">Home</Link>
                     <Link to="/request" className="font-medium text-slate-700 hover:text-primary-600 transition-colors">Request Delivery</Link>
-                    <Link to="/admin" className="font-medium text-slate-700 hover:text-primary-600 transition-colors">Admin Panel</Link>
+
+                    {user ? (
+                        <>
+                            <Link to="/admin" className="font-medium text-slate-700 hover:text-primary-600 transition-colors">Admin Panel</Link>
+                            <button onClick={logout} className="font-medium text-slate-500 hover:text-red-600 transition-colors flex items-center gap-1">
+                                <LogOut size={16} /> Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="/login" className="font-medium text-slate-700 hover:text-primary-600 transition-colors">Admin Access</Link>
+                    )}
+
                     <Button variant="primary" className="py-2 px-4 text-sm">Get Started</Button>
                 </nav>
 
@@ -44,7 +57,14 @@ const Header = () => {
                     <div className="absolute top-full left-0 w-full bg-white shadow-lg p-4 flex flex-col gap-4 md:hidden">
                         <Link to="/" className="font-medium text-slate-700 py-2">Home</Link>
                         <Link to="/request" className="font-medium text-slate-700 py-2">Request Delivery</Link>
-                        <Link to="/admin" className="font-medium text-slate-700 py-2">Admin Panel</Link>
+                        {user ? (
+                            <>
+                                <Link to="/admin" className="font-medium text-slate-700 py-2">Admin Panel</Link>
+                                <button onClick={logout} className="text-left font-medium text-red-600 py-2">Logout</button>
+                            </>
+                        ) : (
+                            <Link to="/login" className="font-medium text-slate-700 py-2">Admin Access</Link>
+                        )}
                         <Button variant="primary" className="w-full">Get Started</Button>
                     </div>
                 )}
