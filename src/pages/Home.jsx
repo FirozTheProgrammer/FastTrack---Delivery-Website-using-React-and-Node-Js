@@ -13,18 +13,41 @@ import FAQ from '../components/FAQ/FAQ';
 
 const Home = () => {
     const [trackingId, setTrackingId] = useState('');
-    const [showResult, setShowResult] = useState(false);
+    const [phone, setPhone] = useState('');
+    const [trackingResult, setTrackingResult] = useState(null);
+    const [error, setError] = useState('');
     const [isSearching, setIsSearching] = useState(false);
 
-    const handleTrack = (e) => {
+    const handleTrack = async (e) => {
         e.preventDefault();
-        if (!trackingId) return;
+        if (!trackingId || !phone) {
+            setError('Please enter both Tracking ID and Phone Number');
+            return;
+        }
 
         setIsSearching(true);
-        setTimeout(() => {
+        setError('');
+        setTrackingResult(null);
+
+        try {
+            const response = await fetch('/api/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: trackingId, phone })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setTrackingResult(data.parcel);
+            } else {
+                setError(data.message || 'Tracking failed');
+            }
+        } catch (err) {
+            setError('Unable to track parcel. Please try again.');
+        } finally {
             setIsSearching(false);
-            setShowResult(true);
-        }, 1500); // Simulate network request
+        }
     };
 
     const features = [
@@ -78,26 +101,45 @@ const Home = () => {
                                     transition={{ delay: 0.3 }}
                                     className="bg-white p-2 rounded-2xl shadow-lg border border-slate-100 max-w-md mx-auto lg:mx-0"
                                 >
-                                    <form onSubmit={handleTrack} className="flex gap-2">
+                                    <form onSubmit={handleTrack} className="flex flex-col gap-2">
                                         <div className="relative flex-1">
                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                             <Input
-                                                placeholder="Enter Tracking ID"
-                                                className="w-full pl-10 border-0 bg-slate-50 focus:bg-white"
+                                                placeholder="Tracking ID"
+                                                className="w-full pl-10 border-0 bg-slate-50 focus:bg-white mb-2"
                                                 value={trackingId}
                                                 onChange={(e) => setTrackingId(e.target.value)}
                                             />
                                         </div>
-                                        <Button type="submit" disabled={isSearching} className="min-w-[120px]">
+                                        <div>
+                                            <Input
+                                                placeholder="Sender Phone Number"
+                                                className="w-full pl-4 border-0 bg-slate-50 focus:bg-white"
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                            />
+                                        </div>
+                                        <Button type="submit" disabled={isSearching} className="w-full">
                                             {isSearching ? 'Locating...' : 'Track Now'}
                                         </Button>
                                     </form>
                                 </motion.div>
 
+                                {/* Error Message */}
+                                {error && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mt-4 bg-red-50 text-red-600 p-3 rounded-lg text-sm text-center font-medium"
+                                    >
+                                        {error}
+                                    </motion.div>
+                                )}
+
                                 {/* Tracking Result Modal/Card */}
-                                {showResult && (
+                                {trackingResult && (
                                     <div className="mt-8">
-                                        <TrackingResult trackingId={trackingId} onClose={() => setShowResult(false)} />
+                                        <TrackingResult parcel={trackingResult} onClose={() => setTrackingResult(null)} />
                                     </div>
                                 )}
                             </div>
@@ -178,7 +220,7 @@ const Home = () => {
                         <Button variant="primary" className="mx-auto text-lg px-8 py-4">Create Account</Button>
                     </div>
                 </section>
-            </main>
+            </main >
             <Footer />
         </>
     );

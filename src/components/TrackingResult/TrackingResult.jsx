@@ -2,15 +2,31 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Truck, MapPin, Clock } from 'lucide-react';
 
-const TrackingResult = ({ trackingId, onClose }) => {
-    // Mock data simulation based on ID
-    const steps = [
-        { status: 'Order Placed', date: 'Oct 24, 10:00 AM', completed: true, icon: CheckCircle },
-        { status: 'Picked Up', date: 'Oct 24, 02:30 PM', completed: true, icon: Truck },
-        { status: 'In Transit', date: 'Oct 25, 09:15 AM', completed: true, icon: MapPin },
-        { status: 'Out for Delivery', date: 'Today, 08:00 AM', completed: false, icon: Truck },
-        { status: 'Delivered', date: 'Estimated: Today, 02:00 PM', completed: false, icon: CheckCircle },
+const TrackingResult = ({ parcel, onClose }) => {
+    if (!parcel) return null;
+
+    const allSteps = [
+        { status: 'Pending Approval', icon: Clock }, // Added this as initial state
+        { status: 'Order Placed', icon: CheckCircle }, // Assuming this equates to initial creation if different? Let's genericize.
+        // Actually, let's stick to the statuses used in data.json: 'Pending Approval', 'In Transit', 'Delivered', 'Review', etc.
+        // Let's make a standard flow:
+        { status: 'Pending Approval', label: 'Order Placed', icon: CheckCircle },
+        { status: 'Picked Up', label: 'Picked Up', icon: Truck },
+        { status: 'In Transit', label: 'In Transit', icon: MapPin },
+        { status: 'Delivered', label: 'Delivered', icon: CheckCircle },
     ];
+
+    // Determine current step index
+    // We map the string status to an index.
+    // simple mapping:
+    let currentStepIndex = 0;
+    const statusLower = parcel.status.toLowerCase();
+
+    if (statusLower.includes('pending')) currentStepIndex = 0;
+    else if (statusLower.includes('picked')) currentStepIndex = 1;
+    else if (statusLower.includes('transit')) currentStepIndex = 2;
+    else if (statusLower.includes('delivered')) currentStepIndex = 3;
+    else currentStepIndex = 1; // Default fallback if unknown, maybe 'Express' or something.
 
     return (
         <motion.div
@@ -21,7 +37,10 @@ const TrackingResult = ({ trackingId, onClose }) => {
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h3 className="text-lg font-bold text-slate-900">Tracking Status</h3>
-                    <p className="text-sm text-slate-500">ID: <span className="font-mono text-primary-600">{trackingId}</span></p>
+                    <p className="text-sm text-slate-500">ID: <span className="font-mono text-primary-600">{parcel.id}</span></p>
+                    <p className="text-xs text-slate-400 mt-1">
+                        From: {parcel.sender} &rarr; To: {parcel.receiver}
+                    </p>
                 </div>
                 <button onClick={onClose} className="text-slate-400 hover:text-slate-600">Close</button>
             </div>
@@ -30,10 +49,10 @@ const TrackingResult = ({ trackingId, onClose }) => {
                 <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-100" />
 
                 <div className="space-y-8">
-                    {steps.map((step, index) => {
+                    {allSteps.map((step, index) => {
                         const Icon = step.icon;
-                        const isCompleted = step.completed;
-                        const isCurrent = !step.completed && steps[index - 1]?.completed;
+                        const isCompleted = index <= currentStepIndex;
+                        const isCurrent = index === currentStepIndex;
 
                         return (
                             <motion.div
@@ -47,17 +66,54 @@ const TrackingResult = ({ trackingId, onClose }) => {
                                     <Icon size={16} />
                                 </div>
                                 <div>
-                                    <h4 className={`font-semibold ${isCompleted || isCurrent ? 'text-slate-900' : 'text-slate-400'}`}>{step.status}</h4>
-                                    <p className="text-sm text-slate-500 flex items-center gap-1">
-                                        <Clock size={14} />
-                                        {step.date}
-                                    </p>
+                                    <h4 className={`font-semibold ${isCompleted || isCurrent ? 'text-slate-900' : 'text-slate-400'}`}>{step.label}</h4>
+                                    {isCurrent && (
+                                        <p className="text-sm text-primary-600 font-medium mt-1">
+                                            Current Status: {parcel.status}
+                                        </p>
+                                    )}
+                                    {isCompleted && index === 0 && (
+                                        <p className="text-sm text-slate-500 flex items-center gap-1">
+                                            <Clock size={14} />
+                                            {parcel.date}
+                                        </p>
+                                    )}
                                 </div>
                             </motion.div>
                         );
                     })}
                 </div>
             </div>
+
+            {/* Delivery Driver Section */}
+            {(statusLower.includes('transit') || statusLower.includes('picked') || statusLower.includes('delivered')) && (
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="mt-8 pt-6 border-t border-slate-100"
+                >
+                    <h4 className="text-sm font-semibold text-slate-900 mb-3">Delivery Partner</h4>
+                    <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl">
+                        <img
+                            src="/delivery_driver_portrait_1765024369341.png"
+                            alt="Driver"
+                            className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+                        />
+                        <div>
+                            <p className="font-bold text-slate-900">Rahim Uddin</p>
+                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                                <span>⭐ 4.8/5</span> • <span>1200+ Deliveries</span>
+                            </p>
+                        </div>
+                        <div className="ml-auto">
+                            <a href="tel:+8801700000000" className="w-8 h-8 flex items-center justify-center bg-white rounded-full text-green-600 shadow-sm border border-slate-100 hover:bg-green-50 transition-colors">
+                                <Truck size={14} />
+                            </a>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
         </motion.div>
     );
 };

@@ -15,6 +15,12 @@ const AdminDashboard = () => {
             .catch(err => console.error('Error fetching parcels:', err));
     }, []);
 
+    /**
+     * Updates the status of a parcel (e.g., Pending -> In Transit).
+     * Sends a PUT request to the backend.
+     * @param {number} index - Index of the parcel in local state.
+     * @param {string} newStatus - The new status string.
+     */
     const updateStatus = async (index, newStatus) => {
         const parcel = parcels[index];
         const updated = [...parcels];
@@ -32,6 +38,11 @@ const AdminDashboard = () => {
         }
     };
 
+    /**
+     * Deletes a parcel from the system.
+     * Sends a DELETE request to the backend.
+     * @param {number} index - Index of the parcel to delete.
+     */
     const deleteParcel = async (index) => {
         const parcel = parcels[index];
         const updated = parcels.filter((_, i) => i !== index);

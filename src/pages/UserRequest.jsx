@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Send, ArrowLeft } from 'lucide-react';
+import { Send, ArrowLeft, Calculator } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import Header from '../components/Header/Header';
@@ -9,22 +10,82 @@ import Footer from '../components/Footer/Footer';
 
 const UserRequest = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [formData, setFormData] = useState({
         sender: '',
+        senderPhone: '',
         receiver: '',
-        type: 'Regular',
+        receiverPhone: '',
+        receiverAddress: '',
+        // New fields
+        location: 'Inside Dhaka',
+        category: 'Standard',
+        speed: 'Regular',
         notes: ''
     });
 
+    const [price, setPrice] = useState(0);
+
+    // Pre-fill user data if logged in
+    useEffect(() => {
+        if (user) {
+            setFormData(prev => ({
+                ...prev,
+                sender: user.username || '',
+                senderPhone: user.phone || ''
+            }));
+        }
+    }, [user]);
+
+    // Pricing Rules
+    useEffect(() => {
+        let calculatedPrice = 0;
+        const { location, category, speed } = formData;
+
+        if (location === 'Inside Dhaka') {
+            if (category === 'Document') {
+                calculatedPrice = 70;
+            } else if (category === 'Fragile') {
+                calculatedPrice = speed === 'Express' ? 140 : 100;
+            } else { // Standard
+                calculatedPrice = speed === 'Express' ? 150 : 70;
+            }
+        } else { // Outside Dhaka
+            // Express is disabled for Outside Dhaka
+            if (category === 'Document') {
+                calculatedPrice = 100;
+            } else if (category === 'Fragile') {
+                calculatedPrice = 160;
+            } else { // Standard
+                calculatedPrice = 120;
+            }
+        }
+        setPrice(calculatedPrice);
+    }, [formData.location, formData.category, formData.speed]);
+
     const generateId = () => `REQ-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const handleChange = (e) => {
+        let { name, value } = e.target;
+
+        // Auto-fix Express constraint for Outside Dhaka
+        if (name === 'location' && value === 'Outside Dhaka') {
+            setFormData(prev => ({ ...prev, [name]: value, speed: 'Regular' }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.sender || !formData.receiver) return;
+        if (!formData.sender || !formData.receiver || !formData.senderPhone || !formData.receiverPhone || !formData.receiverAddress) return;
 
         const newRequest = {
             id: generateId(),
             ...formData,
+            clientId: user?.id, // Link to user account if logged in
+            price: price, // Verify price matches frontend calculation, maybe recalculate? Trusting frontend for now as per simple req.
+            type: formData.category, // Map category back to type for legacy support if needed, or just use category
             status: 'Pending Approval',
             date: new Date().toISOString().split('T')[0]
         };
@@ -35,16 +96,12 @@ const UserRequest = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newRequest)
             });
-            alert(`Delivery Request Sent! ID: ${newRequest.id}`);
+            alert(`Order Placed! ID: ${newRequest.id}. Total Cost: ${price} Tk`);
             navigate('/');
         } catch (err) {
             console.error('Error creating request:', err);
             alert('Failed to submit request. Please try again.');
         }
-    };
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     return (
@@ -66,7 +123,7 @@ const UserRequest = () => {
                                 <Send size={32} />
                             </div>
                             <h1 className="text-3xl font-bold text-slate-900">Request Delivery</h1>
-                            <p className="text-slate-600 mt-2">Fill in the details below and we'll pick it up.</p>
+                            <p className="text-slate-600 mt-2">Get an instant price quote and schedule your pickup.</p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
@@ -82,6 +139,16 @@ const UserRequest = () => {
                                     />
                                 </div>
                                 <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Sender Phone</label>
+                                    <Input
+                                        name="senderPhone"
+                                        placeholder="e.g. 01712345678"
+                                        value={formData.senderPhone}
+                                        onChange={handleChange}
+                                        className="w-full"
+                                    />
+                                </div>
+                                <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-2">Receiver Name</label>
                                     <Input
                                         name="receiver"
@@ -91,28 +158,92 @@ const UserRequest = () => {
                                         className="w-full"
                                     />
                                 </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Receiver Phone</label>
+                                    <Input
+                                        name="receiverPhone"
+                                        placeholder="e.g. 01787654321"
+                                        value={formData.receiverPhone}
+                                        onChange={handleChange}
+                                        className="w-full"
+                                    />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-slate-700 mb-2">Receiver Exact Address</label>
+                                    <textarea
+                                        name="receiverAddress"
+                                        rows="2"
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-900"
+                                        placeholder="House #, Road #, Area..."
+                                        value={formData.receiverAddress}
+                                        onChange={handleChange}
+                                    ></textarea>
+                                </div>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-2">Package Type</label>
-                                <select
-                                    name="type"
-                                    value={formData.type}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-900"
-                                >
-                                    <option>Regular</option>
-                                    <option>Express</option>
-                                    <option>Fragile</option>
-                                    <option>Documents</option>
-                                </select>
+                            <div className="pt-4 border-t border-slate-100">
+                                <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-4">Parcel Details</h3>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Location</label>
+                                        <select
+                                            name="location"
+                                            value={formData.location}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-900"
+                                        >
+                                            <option>Inside Dhaka</option>
+                                            <option>Outside Dhaka</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Category</label>
+                                        <select
+                                            name="category"
+                                            value={formData.category}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-900"
+                                        >
+                                            <option>Standard</option>
+                                            <option>Fragile</option>
+                                            <option>Document</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Delivery Speed</label>
+                                        <select
+                                            name="speed"
+                                            value={formData.speed}
+                                            onChange={handleChange}
+                                            disabled={formData.location === 'Outside Dhaka' || formData.category === 'Document'}
+                                            className={`w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-900 ${formData.location === 'Outside Dhaka' || formData.category === 'Document' ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-slate-50'}`}
+                                        >
+                                            <option>Regular</option>
+                                            <option>Express</option>
+                                        </select>
+                                        {formData.location === 'Outside Dhaka' && <p className="text-xs text-orange-500 mt-1">Express available only inside Dhaka.</p>}
+                                    </div>
+
+                                    {/* Price Display */}
+                                    <div className="flex flex-col justify-end">
+                                        <div className="bg-primary-50 rounded-xl p-4 flex items-center justify-between border border-primary-100">
+                                            <div className="flex items-center gap-2 text-primary-800">
+                                                <Calculator size={20} />
+                                                <span className="font-semibold">Total Cost</span>
+                                            </div>
+                                            <span className="text-2xl font-bold text-primary-700">{price} <span className="text-sm font-medium">Tk</span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Additional Notes</label>
                                 <textarea
                                     name="notes"
-                                    rows="3"
+                                    rows="2"
                                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-900"
                                     placeholder="Any special instructions..."
                                     value={formData.notes}
@@ -121,7 +252,7 @@ const UserRequest = () => {
                             </div>
 
                             <Button type="submit" variant="primary" className="w-full py-4 text-lg">
-                                Submit Request
+                                Confirm Order ({price} Tk)
                             </Button>
                         </form>
                     </motion.div>

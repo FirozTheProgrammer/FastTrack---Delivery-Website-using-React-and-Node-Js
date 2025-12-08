@@ -1,0 +1,58 @@
+[
+  {
+    "id": "USER-1765023726246",
+    "username": "test_1765023726213",
+    "password": "password123",
+    "phone": "01700000000",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765023730991",
+    "username": "firozhasan1542@gmail.com",
+    "password": "123456789",
+    "phone": "01734134799",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765023780451",
+    "username": "firoz",
+    "password": "123456",
+    "phone": "01734134799",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765023981971",
+    "username": "Firoz Al Hasan",
+    "password": "softvence",
+    "phone": "01734134799",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765024075249",
+    "username": "fsdfsa",
+    "password": "$softvence$",
+    "phone": "01734134799",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765024128059",
+    "username": "fsdfsaewreq",
+    "password": "$softvence$",
+    "phone": "01734134799",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765024282094",
+    "username": "firozhhh",
+    "password": "softvence",
+    "phone": "01734134799",
+    "role": "client"
+  },
+  {
+    "id": "USER-1765086149122",
+    "username": "fasdfas",
+    "password": "softvence",
+    "phone": "01734134799",
+    "role": "client"
+  }
+]
