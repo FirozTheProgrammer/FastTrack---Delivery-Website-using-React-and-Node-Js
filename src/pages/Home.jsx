@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Shield, Zap, Globe, Package, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import Header from '../components/Header/Header';
@@ -62,8 +63,8 @@ const Home = () => {
             <Header />
             <main>
                 {/* Hero Section */}
-                <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-white -z-10" />
+                <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden dark:bg-slate-900 transition-colors duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-white dark:from-slate-900 dark:to-slate-800 -z-10" />
                     <div className="absolute right-0 top-0 w-1/2 h-full bg-primary-100/20 blur-3xl -z-10 rounded-full transform translate-x-1/4" />
 
                     <div className="container mx-auto px-4">
@@ -80,7 +81,7 @@ const Home = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.1 }}
-                                    className="text-4xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6"
+                                    className="text-4xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-tight mb-6"
                                 >
                                     Fastest Delivery <br />
                                     <span className="text-primary-600">Trust</span> in Every Box.
@@ -89,7 +90,7 @@ const Home = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2 }}
-                                    className="text-lg text-slate-600 mb-8 max-w-lg mx-auto lg:mx-0"
+                                    className="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-lg mx-auto lg:mx-0"
                                 >
                                     Send parcels anywhere in Bangladesh with speed, security, and real-time updates. Experience the next generation of logistics.
                                 </motion.p>
@@ -99,14 +100,14 @@ const Home = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.3 }}
-                                    className="bg-white p-2 rounded-2xl shadow-lg border border-slate-100 max-w-md mx-auto lg:mx-0"
+                                    className="bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700 max-w-md mx-auto lg:mx-0"
                                 >
                                     <form onSubmit={handleTrack} className="flex flex-col gap-2">
                                         <div className="relative flex-1">
                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                             <Input
                                                 placeholder="Tracking ID"
-                                                className="w-full pl-10 border-0 bg-slate-50 focus:bg-white mb-2"
+                                                className="w-full pl-10 border-0 bg-slate-50 dark:bg-slate-900/50 focus:bg-white dark:focus:bg-slate-800 mb-2 dark:text-white"
                                                 value={trackingId}
                                                 onChange={(e) => setTrackingId(e.target.value)}
                                             />
@@ -114,7 +115,7 @@ const Home = () => {
                                         <div>
                                             <Input
                                                 placeholder="Sender Phone Number"
-                                                className="w-full pl-4 border-0 bg-slate-50 focus:bg-white"
+                                                className="w-full pl-4 border-0 bg-slate-50 dark:bg-slate-900/50 focus:bg-white dark:focus:bg-slate-800 dark:text-white"
                                                 value={phone}
                                                 onChange={(e) => setPhone(e.target.value)}
                                             />
@@ -182,11 +183,11 @@ const Home = () => {
                 <Stats />
 
                 {/* Features Section */}
-                <section id="services" className="py-20 bg-white">
+                <section id="services" className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl font-bold text-slate-900 mb-4">Why Choose Fast Track?</h2>
-                            <p className="text-slate-600 max-w-2xl mx-auto">We don't just deliver packages; we deliver promises. Our service is designed to give you peace of mind.</p>
+                            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Why Choose Fast Track?</h2>
+                            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">We don't just deliver packages; we deliver promises. Our service is designed to give you peace of mind.</p>
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -194,13 +195,13 @@ const Home = () => {
                                 <motion.div
                                     key={idx}
                                     whileHover={{ y: -5 }}
-                                    className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300"
+                                    className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
                                 >
                                     <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600 mb-4">
                                         <feature.icon size={24} />
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900 mb-2">{feature.title}</h3>
-                                    <p className="text-slate-600 text-sm">{feature.desc}</p>
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{feature.title}</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm">{feature.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
@@ -217,11 +218,16 @@ const Home = () => {
                     <div className="container mx-auto px-4 text-center relative z-10">
                         <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to send your first parcel?</h2>
                         <p className="text-slate-300 mb-10 max-w-2xl mx-auto">Join thousands of happy customers who trust Fast Track for their daily logistical needs.</p>
-                        <Button variant="primary" className="mx-auto text-lg px-8 py-4">Create Account</Button>
+                        <Link to="/register">
+                            <Button variant="primary" className="mx-auto text-lg px-8 py-4">Create Account</Button>
+                        </Link>
+                    </div>
+
+                    <div className="mt-20 border-t border-slate-800/50">
+                        <Footer variant="transparent" />
                     </div>
                 </section>
             </main >
-            <Footer />
         </>
     );
 };

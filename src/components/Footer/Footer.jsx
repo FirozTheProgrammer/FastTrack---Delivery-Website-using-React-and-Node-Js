@@ -1,9 +1,11 @@
 import React from 'react';
 import { Package, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
-const Footer = () => {
+const Footer = ({ variant = 'default' }) => {
+    const bgClass = variant === 'transparent' ? 'bg-transparent' : 'bg-slate-900';
+
     return (
-        <footer className="bg-slate-900 text-slate-300 py-12">
+        <footer className={`${bgClass} text-slate-300 py-12 transition-colors duration-300`}>
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8 mb-8">
                     <div>

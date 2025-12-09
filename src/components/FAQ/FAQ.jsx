@@ -6,13 +6,13 @@ const FAQItem = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="border-b border-slate-200 last:border-0">
+        <div className="border-b border-slate-200 dark:border-slate-700 last:border-0">
             <button
                 className="w-full py-6 flex items-center justify-between text-left focus:outline-none"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <span className="text-lg font-semibold text-slate-900">{question}</span>
-                <span className={`p-2 rounded-full transition-colors ${isOpen ? 'bg-primary-100 text-primary-600' : 'bg-slate-100 text-slate-500'}`}>
+                <span className="text-lg font-semibold text-slate-900 dark:text-white">{question}</span>
+                <span className={`p-2 rounded-full transition-colors ${isOpen ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
                     {isOpen ? <Minus size={20} /> : <Plus size={20} />}
                 </span>
             </button>
@@ -25,7 +25,7 @@ const FAQItem = ({ question, answer }) => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                     >
-                        <p className="pb-6 text-slate-600 leading-relaxed">
+                        <p className="pb-6 text-slate-600 dark:text-slate-300 leading-relaxed">
                             {answer}
                         </p>
                     </motion.div>
@@ -56,14 +56,14 @@ const FAQ = () => {
     ];
 
     return (
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
             <div className="container mx-auto px-4 max-w-3xl">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-                    <p className="text-slate-600">Have questions? We're here to help.</p>
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Frequently Asked Questions</h2>
+                    <p className="text-slate-600 dark:text-slate-400">Have questions? We're here to help.</p>
                 </div>
 
-                <div className="bg-white rounded-2xl p-2">
+                <div className="bg-white dark:bg-slate-900 rounded-2xl p-2">
                     {faqs.map((faq, idx) => (
                         <FAQItem key={idx} {...faq} />
                     ))}

@@ -53,14 +53,14 @@ const Login = () => {
     return (
         <>
             <Header />
-            <main className="pt-24 pb-20 min-h-screen bg-slate-50 flex items-center justify-center">
-                <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 w-full max-w-md">
+            <main className="pt-24 pb-20 min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center transition-colors duration-300">
+                <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 w-full max-w-md">
                     <div className="text-center mb-8">
                         <div className="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600">
                             <Lock size={32} />
                         </div>
-                        <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
-                        <p className="text-slate-600 mt-2">Sign in to your account.</p>
+                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome Back</h1>
+                        <p className="text-slate-600 dark:text-slate-400 mt-2">Sign in to your account.</p>
                     </div>
 
                     {error && (
@@ -71,7 +71,7 @@ const Login = () => {
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Username</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Username</label>
                             <Input
                                 name="username"
                                 type="text"
@@ -82,7 +82,7 @@ const Login = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Password</label>
                             <Input
                                 name="password"
                                 type="password"
@@ -98,7 +98,7 @@ const Login = () => {
                         </Button>
                     </form>
 
-                    <p className="text-center text-slate-500 mt-6 text-sm">
+                    <p className="text-center text-slate-500 dark:text-slate-400 mt-6 text-sm">
                         Don't have an account? <Link to="/register" className="text-primary-600 font-semibold hover:underline">Create Account</Link>
                     </p>
                 </div>

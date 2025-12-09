@@ -32,21 +32,21 @@ const TrackingResult = ({ parcel, onClose }) => {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl shadow-xl p-6 max-w-lg w-full mx-auto border border-slate-100"
+            className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-6 max-w-lg w-full mx-auto border border-slate-100 dark:border-slate-800"
         >
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h3 className="text-lg font-bold text-slate-900">Tracking Status</h3>
-                    <p className="text-sm text-slate-500">ID: <span className="font-mono text-primary-600">{parcel.id}</span></p>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">Tracking Status</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">ID: <span className="font-mono text-primary-600">{parcel.id}</span></p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
                         From: {parcel.sender} &rarr; To: {parcel.receiver}
                     </p>
                 </div>
-                <button onClick={onClose} className="text-slate-400 hover:text-slate-600">Close</button>
+                <button onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">Close</button>
             </div>
 
             <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-100" />
+                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-100 dark:bg-slate-800" />
 
                 <div className="space-y-8">
                     {allSteps.map((step, index) => {
@@ -62,18 +62,18 @@ const TrackingResult = ({ parcel, onClose }) => {
                                 transition={{ delay: index * 0.1 }}
                                 className="relative flex gap-4"
                             >
-                                <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center border-2 ${isCompleted ? 'bg-primary-600 border-primary-600 text-white' : isCurrent ? 'bg-white border-primary-600 text-primary-600' : 'bg-slate-50 border-slate-200 text-slate-300'}`}>
+                                <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center border-2 ${isCompleted ? 'bg-primary-600 border-primary-600 text-white' : isCurrent ? 'bg-white dark:bg-slate-900 border-primary-600 text-primary-600' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-300 dark:text-slate-600'}`}>
                                     <Icon size={16} />
                                 </div>
                                 <div>
-                                    <h4 className={`font-semibold ${isCompleted || isCurrent ? 'text-slate-900' : 'text-slate-400'}`}>{step.label}</h4>
+                                    <h4 className={`font-semibold ${isCompleted || isCurrent ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-600'}`}>{step.label}</h4>
                                     {isCurrent && (
                                         <p className="text-sm text-primary-600 font-medium mt-1">
                                             Current Status: {parcel.status}
                                         </p>
                                     )}
                                     {isCompleted && index === 0 && (
-                                        <p className="text-sm text-slate-500 flex items-center gap-1">
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
                                             <Clock size={14} />
                                             {parcel.date}
                                         </p>
@@ -91,23 +91,23 @@ const TrackingResult = ({ parcel, onClose }) => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="mt-8 pt-6 border-t border-slate-100"
+                    className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800"
                 >
-                    <h4 className="text-sm font-semibold text-slate-900 mb-3">Delivery Partner</h4>
-                    <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl">
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">Delivery Partner</h4>
+                    <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
                         <img
                             src="/delivery_driver_portrait_1765024369341.png"
                             alt="Driver"
-                            className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+                            className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
                         />
                         <div>
-                            <p className="font-bold text-slate-900">Rahim Uddin</p>
-                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                            <p className="font-bold text-slate-900 dark:text-white">Rahim Uddin</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
                                 <span>⭐ 4.8/5</span> • <span>1200+ Deliveries</span>
                             </p>
                         </div>
                         <div className="ml-auto">
-                            <a href="tel:+8801700000000" className="w-8 h-8 flex items-center justify-center bg-white rounded-full text-green-600 shadow-sm border border-slate-100 hover:bg-green-50 transition-colors">
+                            <a href="tel:+8801700000000" className="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-700 rounded-full text-green-600 shadow-sm border border-slate-100 dark:border-slate-600 hover:bg-green-50 dark:hover:bg-slate-600 transition-colors">
                                 <Truck size={14} />
                             </a>
                         </div>

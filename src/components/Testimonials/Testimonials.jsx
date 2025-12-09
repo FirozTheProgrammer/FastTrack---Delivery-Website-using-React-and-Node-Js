@@ -28,14 +28,14 @@ const Testimonials = () => {
     ];
 
     return (
-        <section className="py-20 bg-slate-50">
+        <section className="py-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl font-bold text-slate-900 mb-4"
+                        className="text-3xl font-bold text-slate-900 dark:text-white mb-4"
                     >
                         Trusted by Thousands
                     </motion.h2>
@@ -44,7 +44,7 @@ const Testimonials = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-slate-600 max-w-2xl mx-auto"
+                        className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
                     >
                         Don't just take our word for it. Hear what our customers have to say about their experience.
                     </motion.p>
@@ -59,19 +59,19 @@ const Testimonials = () => {
                             viewport={{ once: true }}
                             transition={{ delay: idx * 0.1 }}
                             whileHover={{ y: -5 }}
-                            className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100"
+                            className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800"
                         >
                             <div className="flex gap-1 mb-4 text-yellow-400">
                                 {[...Array(review.rating)].map((_, i) => (
                                     <Star key={i} size={20} fill="currentColor" />
                                 ))}
                             </div>
-                            <p className="text-slate-700 mb-6 italic">"{review.content}"</p>
+                            <p className="text-slate-700 dark:text-slate-300 mb-6 italic">"{review.content}"</p>
                             <div className="flex items-center gap-4">
                                 <img src={review.image} alt={review.name} className="w-12 h-12 rounded-full object-cover" />
                                 <div>
-                                    <h4 className="font-bold text-slate-900">{review.name}</h4>
-                                    <p className="text-sm text-slate-500">{review.role}</p>
+                                    <h4 className="font-bold text-slate-900 dark:text-white">{review.name}</h4>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">{review.role}</p>
                                 </div>
                             </div>
                         </motion.div>
