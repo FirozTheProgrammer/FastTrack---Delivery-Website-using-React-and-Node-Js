@@ -5,8 +5,9 @@ const Footer = ({ variant = 'default' }) => {
     const bgClass = variant === 'transparent' ? 'bg-transparent' : 'bg-slate-900';
 
     return (
-        <footer className={`${bgClass} text-slate-300 py-12 transition-colors duration-300`}>
-            <div className="container mx-auto px-4">
+        <footer className={`relative ${bgClass} text-slate-300 py-16 transition-colors duration-300 rounded-t-[3rem] mt-20`}>
+
+            <div className="container mx-auto px-4 relative z-10">
                 <div className="grid md:grid-cols-4 gap-8 mb-8">
                     <div>
                         <div className="flex items-center gap-2 text-2xl font-bold text-white mb-4">
