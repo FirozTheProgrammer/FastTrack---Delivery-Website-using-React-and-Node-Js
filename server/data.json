@@ -11,8 +11,15 @@
     "speed": "Regular",
     "price": 70,
     "clientId": "USER-1765023726246",
-    "status": "Pending Approval",
-    "date": "2023-12-06"
+    "status": "In Transit",
+    "date": "2023-12-06",
+    "statusHistory": [
+      {
+        "status": "In Transit",
+        "timestamp": "2025-12-22T09:18:00.826Z",
+        "note": "Status updated by admin"
+      }
+    ]
   },
   {
     "id": "REQ-8551",

@@ -7,8 +7,13 @@ import UserRequest from './pages/UserRequest';
 import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Contact from './pages/Contact';
 import Inventory from './pages/Inventory';
 import ClientDashboard from './pages/ClientDashboard';
+import Services from './pages/Services';
+import Analytics from './pages/Analytics';
+import BulkUploadPage from './pages/BulkUploadPage';
+import ApiSettings from './pages/ApiSettings';
 
 function App() {
   return (
@@ -18,6 +23,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/request" element={
             <ProtectedRoute>
               <UserRequest />
@@ -33,6 +40,21 @@ function App() {
           <Route path="/inventory" element={
             <ProtectedRoute requiredRole="admin">
               <Inventory />
+            </ProtectedRoute>
+          } />
+          <Route path="/analytics" element={
+            <ProtectedRoute requiredRole="admin">
+              <Analytics />
+            </ProtectedRoute>
+          } />
+          <Route path="/bulk-upload" element={
+            <ProtectedRoute requiredRole="admin">
+              <BulkUploadPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/api-settings" element={
+            <ProtectedRoute requiredRole="admin">
+              <ApiSettings />
             </ProtectedRoute>
           } />
 

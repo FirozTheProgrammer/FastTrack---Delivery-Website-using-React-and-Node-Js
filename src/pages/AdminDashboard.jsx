@@ -25,13 +25,27 @@ const AdminDashboard = () => {
         const parcel = parcels[index];
         const updated = [...parcels];
         updated[index].status = newStatus;
+
+        // Add to status history
+        if (!updated[index].statusHistory) {
+            updated[index].statusHistory = [];
+        }
+        updated[index].statusHistory.push({
+            status: newStatus,
+            timestamp: new Date().toISOString(),
+            note: `Status updated by admin`
+        });
+
         setParcels(updated);
 
         try {
             await fetch(`/api/parcels/${parcel.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: newStatus })
+                body: JSON.stringify({
+                    status: newStatus,
+                    statusHistory: updated[index].statusHistory
+                })
             });
         } catch (err) {
             console.error('Error updating status:', err);
@@ -74,6 +88,26 @@ const AdminDashboard = () => {
                         <div>
                             <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
                             <p className="text-slate-600">Manage inventory and delivery requests.</p>
+                        </div>
+                        <div className="flex gap-3">
+                            <Link
+                                to="/bulk-upload"
+                                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-full font-medium transition-colors"
+                            >
+                                📦 Bulk Upload
+                            </Link>
+                            <Link
+                                to="/analytics"
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium transition-colors"
+                            >
+                                📊 Analytics
+                            </Link>
+                            <Link
+                                to="/api-settings"
+                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full font-medium transition-colors"
+                            >
+                                🔑 API Settings
+                            </Link>
                         </div>
                     </div>
 

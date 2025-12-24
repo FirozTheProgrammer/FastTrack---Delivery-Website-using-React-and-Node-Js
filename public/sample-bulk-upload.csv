@@ -1,0 +1,6 @@
+ID,Sender,Receiver,Type,Status,SenderPhone,ReceiverPhone,Address,Notes
+FT-2001,ABC Electronics,John Doe,Express,Pending Approval,01712345678,01798765432,"123 Main St, Dhaka",Handle with care
+FT-2002,Fashion House,Sarah Khan,Regular,Pending Approval,01612345678,01898765432,"456 Park Ave, Chittagong",Clothing items
+FT-2003,Tech Solutions,Ahmed Ali,Fragile,Pending Approval,01512345678,01998765432,"789 Market Rd, Sylhet",Electronic components
+FT-2004,Book Store,Fatima Rahman,Regular,Pending Approval,01412345678,01678912345,"321 School Ln, Rajshahi",Educational materials
+FT-2005,Food Mart,Kamal Hossain,Express,Pending Approval,01312345678,01778912345,"654 Garden St, Khulna",Perishable goods

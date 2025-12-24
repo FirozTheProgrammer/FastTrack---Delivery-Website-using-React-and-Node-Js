@@ -26,13 +26,15 @@ const Header = () => {
         <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-4 flex justify-between items-center">
                 <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary-600">
-                    <Package size={32} />
+                    <img src="/fasttrack-logo.png" alt="FastTrack Logo" className="w-10 h-10 object-contain" />
                     <span>FastTrack</span>
                 </Link>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-6">
                     <Link to="/" className="font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Home</Link>
+                    <Link to="/services" className="font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Services</Link>
+                    <Link to="/contact" className="font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Contact</Link>
                     <Link to="/request" className="font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 dark:hover:text-primary-500 transition-colors">Request Delivery</Link>
 
                     <button
@@ -66,6 +68,8 @@ const Header = () => {
                 {isMobileMenuOpen && (
                     <div className="absolute top-full left-0 w-full bg-white dark:bg-slate-900 shadow-lg p-4 flex flex-col gap-4 md:hidden border-t dark:border-slate-800">
                         <Link to="/" className="font-medium text-slate-700 dark:text-slate-200 py-2">Home</Link>
+                        <Link to="/services" className="font-medium text-slate-700 dark:text-slate-200 py-2">Services</Link>
+                        <Link to="/contact" className="font-medium text-slate-700 dark:text-slate-200 py-2">Contact</Link>
                         <Link to="/request" className="font-medium text-slate-700 dark:text-slate-200 py-2">Request Delivery</Link>
 
                         <div className="flex items-center justify-between py-2">
