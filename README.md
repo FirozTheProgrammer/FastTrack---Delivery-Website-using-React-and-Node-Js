@@ -464,11 +464,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support, email firozhasan1542@gmail.com or create an issue in the GitHub repository.
-
----
-
-<div align="center">
-  Made with ❤️ in Bangladesh
-  
-  ⭐ Star this repo if you find it helpful!
-</div>
